@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SmartGrowth - Daftar</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: #f5f5f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .app-container {
+      width: 100%;
+      max-width: 450px;
+      min-height: 100vh;
+      background: white;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .status-bar {
+      background: #fff;
+      color: #333;
+      padding: 10px 15px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .app-header {
+      background: linear-gradient(135deg, #29abe2, #5fd3b3);
+      padding: 20px 20px 30px;
+      text-align: center;
+      color: white;
+      font-weight: bold;
+      font-size: 20px;
+    }
+
+    .form-container {
+      background: white;
+      margin: -20px 20px 10px;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    }
+
+    .form-title {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .input-group {
+      margin-bottom: 15px;
+      position: relative;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 14px;
+      color: #333;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 10px 40px 10px 12px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 14px;
+      outline: none;
+    }
+
+    .show-password {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-10%);
+      cursor: pointer;
+      color: #888;
+      font-size: 18px;
+      user-select: none;
+      line-height: 0;
+    }
+
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      margin: 15px 0;
+    }
+
+    .checkbox-group input[type="checkbox"] {
+      width: auto;
+      margin-right: 8px;
+    }
+
+    .btn-primary {
+      width: 100%;
+      padding: 12px;
+      background: #29abe2;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: background 0.3s ease;
+    }
+
+    .btn-primary:hover {
+      background: #1c8ec0;
+    }
+
+    .login-redirect {
+      text-align: center;
+      font-size: 14px;
+      margin-top: 15px;
+      color: #333;
+    }
+
+    .login-redirect a {
+      color: #29abe2;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    /* === Logo Section === */
+    .logo-section {
+      text-align: center;
+      margin-top: 5px; /* ⬆️ dinaikkan agar lebih dekat ke form */
+      margin-bottom: 25px; /* jarak bawah agar tidak terlalu rapat */
+    }
+
+    .logo {
+      width: 90px; /* sedikit lebih kecil agar proporsional */
+      height: auto;
+      margin-bottom: 5px; /* beri jarak kecil antara logo dan teks */
+    }
+
+    .logo-text {
+      font-size: 13px;
+      color: #666;
+      letter-spacing: 0.5px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    <!-- Header -->
+    <div class="app-header">SmartGrowth</div>
+
+    <!-- Form Daftar -->
+    <div class="form-container">
+      <div class="form-title">Daftar</div>
+
+      <div class="input-group">
+        <label>Email</label>
+        <input type="email" placeholder="Masukkan Email" />
+      </div>
+
+      <div class="input-group">
+        <label>Password</label>
+        <input type="password" id="password" placeholder="Buat Password" />
+        <span class="show-password" onclick="togglePassword()">👁️</span>
+        <div style="font-size: 12px; color: #888; margin-top: 4px;">Minimal 8 Karakter</div>
+      </div>
+
+      <div class="input-group">
+        <label>NIK</label>
+        <input type="text" placeholder="Nomor Induk Kependudukan" />
+      </div>
+
+      <div class="input-group">
+        <label>Nama Lengkap</label>
+        <input type="text" placeholder="Theresa Olivia" />
+      </div>
+
+      <div class="input-group">
+        <label>No HP</label>
+        <input type="text" placeholder="08122312312" />
+      </div>
+
+      <div class="checkbox-group">
+        <input type="checkbox" id="agree" />
+        <label for="agree" style="font-size: 14px; color: #333;">Saya Setuju</label>
+      </div>
+
+      <button class="btn-primary" onclick="window.location.href='login.html'">Daftar</button>
+
+      <div class="login-redirect">
+        Sudah Punya Akun? <a href="login.html">Login</a>
+      </div>
+    </div>
+
+    <!-- Logo -->
+    <div class="logo-section">
+      <img src="image/LogoSmartGrowth.png" alt="Logo" class="logo" />
+      <div class="logo-text">GrowWell</div>
+    </div>
+  </div>
+
+  <script>
+    function togglePassword() {
+      const passwordInput = document.getElementById("password");
+      const icon = document.querySelector(".show-password");
+
+      if (passwordInput.type === "password") {
+        passwordInput.type = "text";
+        icon.textContent = "🙈";
+      } else {
+        passwordInput.type = "password";
+        icon.textContent = "👁️";
+      }
+    }
+  </script>
+</body>
+</html>

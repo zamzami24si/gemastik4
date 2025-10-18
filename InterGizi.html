@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SmartGrowth - Dashboard</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background-color: #f7f8fa;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    /* === Container utama (konsisten 450px) === */
+    .app-container {
+      width: 100%;
+      max-width: 450px;
+      min-height: 100vh;
+      background: #ffffff;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+
+    /* === Status Bar (jam, sinyal) === */
+    .status-bar {
+      background: #fff;
+      color: #333;
+      padding: 10px 15px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      border-bottom: 1px solid #eee;
+    }
+
+    /* === Header === */
+    .app-header {
+      background: linear-gradient(135deg, #00b4db, #00d49c);
+      padding: 18px 20px;
+      color: white;
+      font-weight: 600;
+      font-size: 18px;
+      text-align: center;
+      letter-spacing: 0.3px;
+    }
+
+    /* === Kartu Status Gizi === */
+    .gizi-card {
+  background: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  margin: 15px 20px 10px;
+  padding: 15px 18px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* header di dalam kartu */
+.gizi-header {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* jarak antara panah dan teks */
+  margin-bottom: 8px; /* beri jarak dari isi kartu */
+}
+
+.back-btn {
+  font-size: 20px;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.back-btn:hover {
+  color: #00a3d7;
+  transform: translateX(-5px);
+  text-shadow: 0 0 5px rgba(0,163,215,0.4);
+}
+    
+
+    .good { color: #28a745; font-weight: 600; }
+    .ok { color: #007bff; font-weight: 600; }
+    .enough { color: #ff9800; font-weight: 600; }
+
+    .ai-label {
+      font-size: 12px;
+      color: #666;
+      margin-top: 4px;
+    }
+
+    /* === Daftar makanan === */
+    .content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 5px 18px 90px;
+    }
+
+    .food-item {
+      display: flex;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+      margin-bottom: 14px;
+      padding: 10px;
+      align-items: center;
+      position: relative;
+      transition: transform 0.2s ease;
+    }
+
+    .food-item:hover {
+      transform: scale(1.02);
+    }
+
+    .food-item img {
+      width: 80px;
+      height: 80px;
+      border-radius: 10px;
+      object-fit: cover;
+      margin-right: 12px;
+    }
+
+    .food-details {
+      flex: 1;
+    }
+
+    .food-title {
+      font-weight: 600;
+      font-size: 15px;
+      margin-bottom: 3px;
+      color: #222;
+    }
+
+    .food-subtitle {
+      font-size: 13px;
+      color: #666;
+    }
+
+    .heart {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      font-size: 20px;
+      color: #ff3b30;
+    }
+
+    /* === Navbar bawah === */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 450px;
+      height: 75px;
+      background: #ffffff;
+      border-top: 1px solid rgba(0, 0, 0, 0.05);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      box-shadow: 0 -4px 25px rgba(0, 0, 0, 0.08);
+      border-radius: 20px 20px 0 0;
+      animation: slideUpNav 0.6s ease-out;
+      z-index: 10;
+    }
+
+    @keyframes slideUpNav {
+      from { transform: translate(-50%, 100%); opacity: 0; }
+      to { transform: translate(-50%, 0); opacity: 1; }
+    }
+
+    .nav-item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #555;
+      font-size: 12px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      position: relative;
+      gap: 4px;
+    }
+
+    .nav-item i {
+      font-size: 22px;
+      line-height: 1;
+      transition: transform 0.3s ease, color 0.3s ease;
+    }
+
+    .nav-item:hover i {
+      color: #00d4a0;
+      transform: translateY(-3px) scale(1.1);
+    }
+
+    .nav-item:hover span {
+      color: #00d4a0;
+    }
+
+    .nav-item.active {
+      color: #00b4db;
+      font-weight: 600;
+    }
+
+    .nav-item.active i {
+      color: #00b4db;
+      transform: translateY(-3px);
+    }
+
+    .nav-item.active::after {
+      content: "";
+      position: absolute;
+      bottom: 6px;
+      width: 30px;
+      height: 3px;
+      border-radius: 10px;
+      background: linear-gradient(90deg, #00b4db, #00d49c);
+      box-shadow: 0 0 8px rgba(0, 180, 219, 0.5);
+      animation: glowPulse 1.8s infinite ease-in-out;
+    }
+
+    @keyframes glowPulse {
+      0%, 100% { opacity: 0.6; transform: scaleX(1); }
+      50% { opacity: 1; transform: scaleX(1.3); }
+    }
+
+    .home-indicator {
+      height: 5px;
+      width: 120px;
+      background: #ccc;
+      border-radius: 10px;
+      margin: 10px auto 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <div class="app-header">SmartGrowth</div>
+
+    <!-- Status Gizi -->
+<div class="gizi-card">
+  <div class="gizi-header">
+    <span class="back-btn" onclick="window.location.href='Notifikasi.html'">←</span>
+    <b>Status Gizi</b>
+  </div>
+  <p>IMT / Umur : <span class="good">Gizi Baik</span></p>
+  <p>Tinggi Badan : <span class="ok">Cukup Tinggi</span></p>
+  <p>Berat Badan : <span class="enough">Berat Badan Cukup</span></p>
+  <p class="ai-label">AI Nutrition Recommendation Engine</p>
+</div>
+
+
+    <!-- Daftar Makanan -->
+    <div class="content">
+      <div class="food-item">
+        <img src="image/Asi.png" alt="ASI">
+        <div class="food-details">
+          <div class="food-title">ASI</div>
+          <div class="food-subtitle">Tinggi Protein</div>
+        </div>
+      </div>
+
+      <div class="food-item">
+        <span class="heart">❤</span>
+        <img src="image/Bayam.png" alt="Sayur bayam jagung bening">
+        <div class="food-details">
+          <div class="food-title">Sayur bayam jagung bening</div>
+          <div class="food-subtitle">120 kcal, 10 gr protein</div>
+        </div>
+      </div>
+
+      <div class="food-item">
+        <img src="image/Creamy.png" alt="Creamy Feast">
+        <div class="food-details">
+          <div class="food-title">Creamy Feast</div>
+          <div class="food-subtitle">120 kcal, 10 gr protein</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navbar -->
+    <div class="bottom-nav">
+      <a href="dashboard1.html" class="nav-item active">
+        <i>🏠</i>
+        <span>HOME</span>
+      </a>
+      <a href="berita.html" class="nav-item">
+        <i>📰</i>
+        <span>BERITA</span>
+      </a>
+      <a href="Profilortu.html" class="nav-item">
+        <i>👤</i>
+        <span>PROFIL</span>
+      </a>
+      <a href="Notifikasi.html" class="nav-item">
+        <i>🔔</i>
+        <span>NOTIFIKASI</span>
+      </a>
+      <a href="dashboard1.html" class="nav-item">
+        <i>☰</i>
+        <span>MENU</span>
+      </a>
+    </div>
+  </div>
+</body>
+</html>

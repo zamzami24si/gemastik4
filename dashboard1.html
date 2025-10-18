@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartGrowth Dashboard</title>
+    <!-- Load Tailwind CSS dari CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tambahkan di dalam <head> -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="theme-color" content="#2193b0">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="https://placehold.co/192x192.png">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <script>
+        // Konfigurasi Tailwind untuk menyesuaikan warna header dan tile
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-blue': '#2193b0', // Biru gelap
+                        'light-blue': '#6dd5ed', // Biru muda
+                        'tile-light': '#ffffff', // Tile baris 1, 4, dan 5
+                        'tile-large-bg': '#ffffff', // Tile besar (Data Anak, AI)
+                        'tile-small-bg': '#ffffff', // Tile kecil (Gizi, Riwayat)
+                        'nav-active': '#2193b0',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        html,
+        body {
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+        }
+
+
+        /* Gaya dasar untuk meniru wadah aplikasi seluler */
+        body {
+            /* Pastikan font Inter digunakan secara default */
+            font-family: 'Inter', sans-serif;
+        }
+        .status-bar {
+        background: #fff;
+        color: #333;
+        padding: 10px 15px;
+        display: flex;
+        justify-content: space-between;
+        font-size: 14px;
+        border-bottom: 1px solid #eee;
+        }
+        .menu-item:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .app-container {
+            max-width: 450px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Gradient header yang mendekati gambar */
+        .header-bg {
+            background: linear-gradient(180deg, #81D4FA 0%, #4DD0E1 100%);
+            /* Gradien biru cerah */
+            border-bottom-left-radius: 40px;
+            border-bottom-right-radius: 40px;
+            position: relative;
+            z-index: 10;
+            /* Tambahkan efek bayangan ringan di bawah header */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Ikon Avatar */
+        .avatar-shadow {
+            box-shadow: 0 0 0 3px white, 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Efek shadow pada tile/ikon agar terlihat terangkat */
+        .tile-shadow {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: transform 0.2s;
+        }
+
+        .menu-item:hover .tile-shadow {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Tata letak grid menu (3 kolom) */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            /* Jarak antar tile */
+        }
+
+        /* Penyesuaian tata letak untuk tile Baris 2 dan 3 */
+        /* Baris 2: Data Anak (2 kolom) dan Gizi (1 kolom) */
+        .menu-grid>a:nth-child(4) {
+            /* Data Anak */
+            grid-column: 1 / span 2;
+            min-height: 160px;
+            /* Tinggi agar terlihat besar */
+            display: flex;
+            flex-direction: row;
+            /* Konten di samping (ikon kiri, teks kanan) */
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .menu-grid>a:nth-child(5) {
+            /* Gizi */
+            grid-column: 3;
+            min-height: 160px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* Baris 3: AI Prediction Model (2 kolom) dan Riwayat & Laporan (1 kolom) */
+        .menu-grid>a:nth-child(6) {
+            /* AI Prediction Model */
+            grid-column: 1 / span 2;
+            min-height: 160px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .menu-grid>a:nth-child(7) {
+            /* Riwayat & Laporan */
+            grid-column: 3;
+            min-height: 160px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* Gaya Navigasi Bawah */
+        .nav-icon-size {
+            font-size: 24px;
+        }
+
+        .nav-text {
+            font-size: 10px;
+            font-weight: 600;
+            /* Semi-bold untuk teks navigasi */
+        }
+
+        .nav-active-item {
+            color: var(--nav-active);
+        }
+
+        .nav-item:not(.nav-active-item) {
+            color: #718096;
+            /* abu-abu */
+        }
+
+        nav {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            max-width: 450px;
+            background: white;
+            border-top: 1px solid #e5e7eb;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            padding-bottom: calc(env(safe-area-inset-bottom) + 8px);
+            /* extra padding */
+            z-index: 50;
+        }
+        /* === Animasi untuk Navbar === */
+
+/* Efek hover dan klik */
+.nav-item {
+  transition: all 0.3s ease;
+  transform-origin: center;
+}
+
+.nav-item:hover {
+  transform: scale(1.15) translateY(-2px);
+  color: #2193b0 !important;
+}
+
+/* Efek klik (active) */
+.nav-item:active {
+  transform: scale(0.95);
+  opacity: 0.8;
+}
+
+/* Item aktif berdenyut lembut */
+@keyframes pulse-glow {
+  0% { text-shadow: 0 0 0 rgba(33,147,176,0.3); }
+  50% { text-shadow: 0 0 10px rgba(33,147,176,0.7); }
+  100% { text-shadow: 0 0 0 rgba(33,147,176,0.3); }
+}
+
+.nav-active-item {
+  color: #2193b0 !important;
+  animation: pulse-glow 2.2s infinite ease-in-out;
+}
+
+/* Efek masuk saat halaman dimuat */
+@keyframes slide-up {
+  from { transform: translateY(100%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+nav {
+  animation: slide-up 0.5s ease-out;
+}
+
+    </style>
+</head>
+
+<body class="bg-gray-100 flex justify-center">
+
+    <div class="app-container w-full bg-white">
+        <header class="header-bg p-4 pb-12 text-white">
+
+            <!-- Judul dan Avatar -->
+            <div class="flex items-center justify-between mb-4">
+                <div class="flex items-baseline">
+                    <p class="text-xl font-light mr-1 text-gray-900">Hi</p>
+                    <h1 class="text-3xl font-bold text-gray-900">SmartGrowth</h1>
+                </div>
+                <!-- Avatar Wanita dengan shadow putih melingkar -->
+                <div class="w-12 h-12 rounded-full overflow-hidden avatar-shadow">
+                    <img src="image/LogoSmartGrowth.png" alt="Avatar Pengguna"
+                        class="w-full h-full object-cover">
+                </div>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="search-bar flex items-center bg-white rounded-xl p-3 shadow-md">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500 mr-2" viewBox="0 0 20 20"
+                    fill="currentColor">
+                    <path fill-rule="evenodd"
+                        d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                        clip-rule="evenodd" />
+                </svg>
+                <input type="text" placeholder="Search"
+                    class="flex-grow border-none outline-none bg-transparent text-gray-800 placeholder-gray-500">
+                <!-- Ikon Mikrofon -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-500 ml-2 cursor-pointer"
+                    viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z" />
+                    <path
+                        d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z" />
+                </svg>
+            </div>
+        </header>
+
+        <br>
+
+        <!-- KONTEN UTAMA (Menu Grid) -->
+        <main class="flex-grow p-4 pb-32 -mt-6 z-20">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">Menu</h2>
+            <div class="menu-grid">
+
+                <!-- Baris 1: 3 Kolom Normal -->
+
+                <!-- 1. Peta Penyebaran -->
+                <a href="PetaLayanan.html"
+                    class="menu-item flex flex-col items-center justify-center text-center p-3 rounded-2xl bg-tile-light text-gray-700 tile-shadow">
+                    <!-- Ikon Peta (Warna hijau/merah) -->
+                    <div class="w-14 h-14 bg-white rounded-xl flex items-center justify-center mb-1">
+                        <i class="fa-solid fa-map-location-dot text-yellow-600 text-3xl"></i>
+                    </div>
+                    <span class="text-xs font-medium mt-1">Peta Penyebaran</span>
+                </a>
+
+                <!-- 2. Input Data Pertumbuhan -->
+                <a href="InputDataAnak.html"
+                    class="menu-item flex flex-col items-center justify-center text-center p-3 rounded-2xl bg-tile-light text-gray-700 tile-shadow">
+                    <!-- Ikon Input Data (Warna biru/oranye) -->
+                    <div class="w-14 h-14 bg-white rounded-xl flex items-center justify-center mb-1">
+                        <i class="fa-solid fa-upload text-blue-600 text-3xl"></i>
+                    </div>
+                    <span class="text-xs font-medium mt-1">Input Data Pertumbuhan</span>
+                </a>
+
+                <!-- 3. SmartGrowth Assist -->
+                <a href="chatBot.html"
+                    class="menu-item flex flex-col items-center justify-center text-center p-3 rounded-2xl bg-tile-light text-gray-700 tile-shadow">
+                    <!-- Ikon Assist (Warna ungu/biru) -->
+                    <div class="w-14 h-14 bg-white rounded-xl flex items-center justify-center mb-1">
+                        <i class="fa-solid fa-robot text-blue-600 text-3xl"></i>
+                    </div>
+                    <span class="text-xs font-medium mt-1">SmartGrowth Assist</span>
+                </a>
+
+                <!-- Baris 2: Data Anak (Besar) dan Gizi (Kecil) -->
+
+                <!-- 4. Data Anak (2 Kolom) -->
+                <a href="data-anak.html" class="menu-item p-4 rounded-2xl bg-tile-large-bg text-gray-800 tile-shadow">
+                    <!-- Ikon Data Anak (Warna merah/biru) -->
+                    <div class="w-14 h-14 bg-white rounded-xl flex items-center justify-center mb-1">
+                        <i class="fa-solid fa-children text-red-600 text-3xl"></i>
+                    </div>
+                    <div class="w-2/3 flex items-center justify-start pl-2">
+                        <span class="text-lg font-semibold">Data Anak</span>
+                    </div>
+                </a>
+
+                <!-- 5. Gizi (1 Kolom) -->
+                <a href="InterGizi.html"
+                    class="menu-item flex flex-col items-center justify-center p-4 rounded-2xl bg-tile-small-bg text-gray-800 tile-shadow">
+                    <!-- Ikon Gizi (Warna hijau/kuning) -->
+                    <div class="w-14 h-14 bg-white rounded-xl flex items-center justify-center mb-1">
+                        <i class="fa-solid fa-carrot text-yellow-600 text-3xl"></i>
+                    </div>
+                    <span class="text-sm font-semibold text-center">Gizi</span>
+                </a>
+
+                <!-- Baris 3: AI Prediction Model (Besar) dan Riwayat & Laporan (Kecil) -->
+
+                <!-- 6. AI Prediction Model (2 Kolom) -->
+                <a href="Prediksi.html" class="menu-item p-4 rounded-2xl bg-tile-large-bg text-gray-800 tile-shadow">
+                    <!-- Ikon AI Prediction Model (Warna biru/hijau) -->
+                    <div class="w-14 h-14 bg-white rounded-xl flex items-center justify-center mb-1">
+                        <i class="fa-solid fa-chart-line text-green-600 text-3xl"></i>
+                    </div>
+                    <div class="w-2/3 flex items-center justify-start pl-2">
+                        <span class="text-lg font-semibold">AI Prediction Model</span>
+                    </div>
+                </a>
+
+                <!-- 7. Riwayat & Laporan (1 Kolom) -->
+                <a href="Laporan.html"
+                    class="menu-item flex flex-col items-center justify-center p-4 rounded-2xl bg-tile-small-bg text-gray-800 tile-shadow">
+                    <!-- Ikon Riwayat & Laporan (Warna merah) -->
+                    <div class="w-14 h-14 bg-white rounded-xl flex items-center justify-center mb-1">
+                        <i class="fa-solid fa-rotate-left text-red-600 text-3xl"></i>
+                    </div>
+                    <span class="text-sm font-semibold text-center">Riwayat & Laporan</span>
+                </a>
+
+                <!-- Baris 4: 3 Kolom Normal -->
+
+                <!-- 8. Perangkat -->
+                <a href="Perangkat.html"
+                    class="menu-item flex flex-col items-center justify-center text-center p-3 rounded-2xl bg-tile-light text-gray-700 tile-shadow">
+                    <!-- Ikon Perangkat (Warna abu-abu/biru) -->
+                    <div class="w-14 h-14 bg-white rounded-xl flex items-center justify-center mb-1">
+                        <i class="fa-solid fa-sliders text-grey-600 text-3xl"></i>
+                    </div>
+                    <span class="text-xs font-medium mt-1">Perangkat</span>
+                </a>
+
+                <!-- 9. Notifikasi dan Jadwal Imunisasi -->
+                <a href="Notifikasi.html"
+                    class="menu-item flex flex-col items-center justify-center text-center p-3 rounded-2xl bg-tile-light text-gray-700 tile-shadow">
+                    <!-- Ikon Imunisasi (Warna merah/kalender) -->
+                    <div class="w-14 h-14 bg-white rounded-xl flex items-center justify-center mb-1">
+                        <i class="fa-solid fa-calendar-alt text-red-600 text-3xl"></i>
+                    </div>
+                    <span class="text-xs font-medium mt-1 leading-tight">Notifikasi dan Jadwal Imunisasi</span>
+                </a>
+
+                <!-- 10. Menu Lainnya -->
+                <a href="dashboard2.html"
+                    class="menu-item flex flex-col items-center justify-center text-center p-3 rounded-2xl bg-tile-light text-gray-700 tile-shadow">
+                    <!-- Ikon Menu Lainnya (Warna biru) -->
+                    <div class="w-14 h-14 bg-white rounded-xl flex items-center justify-center mb-1">
+                        <i class="fa-solid fa-bars text-green-600 text-3xl"></i>
+                    </div>
+                    <span class="text-xs font-medium mt-1">Menu Lainnya</span>
+                </a>
+
+            </div>
+            <!-- Ruang kosong di bawah grid agar tidak tertutup nav bawah -->
+            <div class="h-20"></div>
+        </main>
+
+        <!-- NAVIGASI BAWAH (Fixed) -->
+        <nav
+            class="fixed bottom-0 w-full max-w-[450px] bg-white border-t border-gray-200 shadow-lg flex justify-around p-2">
+            <a href="dashboard1.html" class="nav-item nav-active-item flex flex-col items-center p-1">
+                <span class="nav-icon-size">🏠</span>
+                <span class="nav-text">HOME</span>
+            </a>
+
+            <a href="berita.html" class="nav-item flex flex-col items-center p-1 hover:text-nav-active">
+                <span class="nav-icon-size">📰</span>
+                <span class="nav-text">BERITA</span>
+            </a>
+
+            <a href="Profilortu.html" class="nav-item flex flex-col items-center p-1 hover:text-nav-active">
+                <span class="nav-icon-size">👤</span>
+                <span class="nav-text">PROFIL</span>
+            </a>
+
+            <a href="Notifikasi.html" class="nav-item flex flex-col items-center p-1 hover:text-nav-active">
+                <span class="nav-icon-size">🔔</span>
+                <span class="nav-text">NOTIFIKASI</span>
+            </a>
+
+            <a href="dashboard1.html" class="nav-item flex flex-col items-center p-1 hover:text-nav-active">
+                <span class="nav-icon-size">☰</span>
+                <span class="nav-text">MENU</span>
+            </a>
+        </nav>
+    </div>
+
+</body>
+
+</html>

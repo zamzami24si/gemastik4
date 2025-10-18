@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SmartGrowth - Menu</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: #ececec;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    /* ✅ Frame persegi (tanpa lengkungan) */
+    .phone-frame {
+      width: 375px;
+      height: 740px;
+      background: white;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      border-radius: 0;
+    }
+
+    /* Status Bar */
+    .status-bar {
+      background: #fff;
+      color: #333;
+      padding: 10px 15px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      border-bottom: 1px solid #eee;
+    }
+
+    /* Header */
+    .app-header {
+      background: white;
+      padding: 15px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #eee;
+    }
+
+    .app-header .back-btn {
+      font-size: 20px;
+      color: #333;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .app-header .back-btn:hover {
+      color: #00a3d7;
+      transform: translateX(-5px);
+      text-shadow: 0 0 5px rgba(0,163,215,0.4);
+    }
+
+    .app-header h1 {
+      font-size: 18px;
+      font-weight: bold;
+      color: #333;
+      margin: 0;
+    }
+
+    /* Konten utama */
+    .content {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      background: white;
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+    }
+
+    .section-title {
+      font-size: 15px;
+      color: #000;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+
+    .account-menu {
+      background: #f5f5f5;
+      border-radius: 10px;
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+    }
+
+    .menu-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .menu-item:hover {
+      background: #e0e0e0;
+      transform: translateX(3px);
+    }
+
+    .menu-icon {
+      font-size: 20px;
+      color: #666;
+    }
+
+    .menu-label {
+      font-size: 14px;
+      color: #333;
+    }
+
+    /* Logo */
+    .logo-section {
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    .logo {
+      width: 100px;
+      height: auto;
+    }
+
+    .logo-text {
+      font-size: 18px;
+      font-weight: bold;
+      color: #000;
+      margin: 10px 0 3px;
+    }
+
+    .logo-subtext {
+      font-size: 12px;
+      color: #777;
+    }
+
+    /* ✅ Navbar persegi penuh */
+    .nav-bar {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: white;
+      border-top: 1px solid #e5e5e5;
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.08);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 8px 0;
+      border-radius: 0;
+      z-index: 1000;
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      color: #666;
+      font-size: 12px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-item:hover {
+      color: #29abe2;
+      transform: translateY(-3px);
+    }
+
+    .nav-active-item {
+      color: #29abe2;
+      font-weight: bold;
+      animation: pulse-glow 2s infinite ease-in-out;
+    }
+
+    .nav-icon-size {
+      font-size: 20px;
+      margin-bottom: 3px;
+    }
+
+    .nav-text {
+      font-size: 11px;
+    }
+
+    @keyframes pulse-glow {
+      0% { text-shadow: 0 0 0 rgba(41,171,226,0.3); }
+      50% { text-shadow: 0 0 8px rgba(41,171,226,0.7); }
+      100% { text-shadow: 0 0 0 rgba(41,171,226,0.3); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="phone-frame">
+    <!-- App Header -->
+    <div class="app-header">
+      <span class="back-btn" onclick="window.location.href='dashboard1.html'">←</span>
+      <h1>Menu</h1>
+    </div>
+
+    <!-- Konten -->
+    <div class="content">
+      <div>
+        <div class="section-title">Akun</div>
+        <div class="account-menu">
+          <div class="menu-item"><span class="menu-icon">👤</span><span class="menu-label">Edit Profil</span></div>
+          <div class="menu-item"><span class="menu-icon">🔒</span><span class="menu-label">Keamanan</span></div>
+          <div class="menu-item"><span class="menu-icon">🔔</span><span class="menu-label">Notifikasi</span></div>
+          <div class="menu-item"><span class="menu-icon">🛡️</span><span class="menu-label">Privasi</span></div>
+        </div>
+      </div>
+
+      <div class="logo-section">
+        <img src="image/LogoSmartGrowth.png" alt="Logo" class="logo" />
+        <div class="logo-text">GrowWell</div>
+        <div class="logo-subtext">PCR (Pantau Cegah Risiko) Stunting</div>
+      </div>
+    </div>
+
+    <!-- ✅ Navbar -->
+    <div class="nav-bar">
+      <a href="dashboard1.html" class="nav-item">
+        <span class="nav-icon-size">🏠</span>
+        <span class="nav-text">HOME</span>
+      </a>
+      <a href="berita.html" class="nav-item">
+        <span class="nav-icon-size">📰</span>
+        <span class="nav-text">BERITA</span>
+      </a>
+      <a href="Profilortu.html" class="nav-item">
+        <span class="nav-icon-size">👤</span>
+        <span class="nav-text">PROFIL</span>
+      </a>
+      <a href="Notifikasi.html" class="nav-item">
+        <span class="nav-icon-size">🔔</span>
+        <span class="nav-text">NOTIFIKASI</span>
+      </a>
+      <a href="menu.html" class="nav-item nav-active-item">
+        <span class="nav-icon-size">☰</span>
+        <span class="nav-text">MENU</span>
+      </a>
+    </div>
+  </div>
+
+</body>
+</html>

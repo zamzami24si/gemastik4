@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SmartGrowth - Konfirmasi Data</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background-color: #f5f7fa;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    /* === FRAME TANPA SUDUT LENGKUNG === */
+    .app-frame {
+      width: 375px;
+      height: 740px;
+      background: white;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      position: relative;
+      border-radius: 0; /* RUNCING */
+    }
+
+    /* === STATUS BAR === */
+    .status-bar {
+      background: #fff;
+      color: #333;
+      padding: 10px 15px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      border-bottom: 1px solid #eee;
+    }
+
+    /* === HEADER === */
+    .app-header {
+      background: linear-gradient(135deg, #29abe2, #5fd3b3);
+      color: white;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .back-btn {
+      font-size: 22px;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .back-btn:hover {
+      transform: translateX(-5px);
+      text-shadow: 0 0 6px rgba(255,255,255,0.6);
+    }
+
+    .app-header h1 {
+      font-size: 16px;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    /* === CONTENT === */
+    .content {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      background: #fff;
+    }
+
+    .input-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 14px;
+      color: #333;
+      font-weight: 500;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    select {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 14px;
+      outline: none;
+      transition: border 0.2s ease;
+    }
+
+    input:focus, select:focus {
+      border-color: #29abe2;
+      box-shadow: 0 0 4px rgba(41,171,226,0.3);
+    }
+
+    /* === TOMBOL UTAMA === */
+    .btn-primary {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(135deg, #29abe2, #5fd3b3);
+      color: white;
+      border: none;
+      border-radius: 25px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      position: relative;
+      overflow: hidden;
+      margin-top: 10px;
+      animation: fadeInPop 0.5s ease;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 18px rgba(0,0,0,0.25);
+    }
+
+    .btn-primary:active {
+      transform: scale(0.96);
+      box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+    }
+
+    .btn-primary::after {
+      content: "";
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: rgba(255,255,255,0.5);
+      border-radius: 50%;
+      transform: scale(0);
+      opacity: 0;
+      pointer-events: none;
+      transition: transform 0.5s ease, opacity 0.6s ease;
+    }
+
+    .btn-primary:active::after {
+      transform: scale(25);
+      opacity: 0;
+    }
+
+    @keyframes fadeInPop {
+      from { opacity: 0; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    /* === MODAL & OVERLAY === */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+    }
+
+    .modal {
+      background: white;
+      border-radius: 12px;
+      padding: 22px;
+      width: 90%;
+      max-width: 300px;
+      text-align: center;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+      animation: fadeIn 0.3s ease-out;
+    }
+
+    .modal-icon {
+      font-size: 36px;
+      color: #ff9800;
+      margin-bottom: 10px;
+    }
+
+    .modal-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 8px;
+    }
+
+    .modal-text {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 18px;
+    }
+
+    .modal-buttons {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .btn-cancel, .btn-confirm {
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-cancel {
+      background: white;
+      color: #333;
+      border: 1px solid #ccc;
+    }
+
+    .btn-cancel:hover {
+      background: #f5f5f5;
+    }
+
+    .btn-confirm {
+      background: #a8e6cf;
+      color: #2e7d32;
+      border: none;
+      font-weight: bold;
+    }
+
+    .btn-confirm:hover {
+      background: #81c784;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-frame">
+    <!-- HEADER -->
+    <div class="app-header">
+      <span class="back-btn" onclick="window.location.href='dashboard1.html'">←</span>
+      <h1>Lengkapi Data</h1>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content">
+      <div class="input-group">
+        <label>Tinggi Badan (cm) *</label>
+        <input type="number" value="171" />
+      </div>
+
+      <div class="input-group">
+        <label>Berat Badan (kg) *</label>
+        <input type="number" value="80" />
+      </div>
+
+      <div class="input-group">
+        <label>Jenis Kelamin *</label>
+        <select>
+          <option>Laki-laki</option>
+          <option>Perempuan</option>
+        </select>
+      </div>
+
+      <div class="input-group">
+        <label>Usia (tahun) *</label>
+        <input type="number" value="30" />
+      </div>
+
+      <button class="btn-primary" onclick="openModal()">Simpan Data</button>
+    </div>
+
+    <!-- MODAL -->
+    <div class="overlay" id="confirmationOverlay">
+      <div class="modal">
+        <div class="modal-icon">⚠️</div>
+        <div class="modal-title">Konfirmasi</div>
+        <div class="modal-text">Apakah data yang Anda masukkan sudah benar?</div>
+        <div class="modal-buttons">
+          <button class="btn-cancel" onclick="closeModal()">Periksa Lagi</button>
+          <button class="btn-confirm" onclick="confirmData()">Ya, Benar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function openModal() {
+      document.getElementById('confirmationOverlay').style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('confirmationOverlay').style.display = 'none';
+    }
+
+    function confirmData() {
+      document.getElementById('confirmationOverlay').style.display = 'none';
+      setTimeout(() => {
+        window.location.href = "kalkulator3.html";
+      }, 300);
+    }
+  </script>
+</body>
+</html>

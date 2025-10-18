@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SmartGrowth - Jadwal Imunisasi</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background-color: #f7f8fa;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    /* === FRAME TANPA LENGKUNG ATAS === */
+    .phone-frame {
+      width: 375px;
+      height: 740px;
+      background: #fff;
+      border-radius: 0 0 35px 35px; /* hanya bawah melengkung */
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    /* === HEADER === */
+    .app-header {
+      background: linear-gradient(to right, #00b4db, #00d49c);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      padding: 18px 20px;
+      font-weight: 600;
+      font-size: 16px;
+      gap: 10px;
+    }
+
+    .back-btn {
+      font-size: 22px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .back-btn:hover {
+      color: #fff;
+      transform: translateX(-5px);
+      text-shadow: 0 0 8px rgba(255,255,255,0.6);
+    }
+
+    /* === TAB === */
+    .tab-container {
+      background: #fff;
+      display: flex;
+      border-bottom: 1px solid #eee;
+    }
+
+    .tab {
+      flex: 1;
+      text-align: center;
+      padding: 12px 0;
+      font-size: 14px;
+      color: #666;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .tab:hover {
+      color: #00b4db;
+      transform: scale(1.05);
+    }
+
+    .tab.active {
+      color: #00b4db;
+      font-weight: 600;
+    }
+
+    .tab.active::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 25%;
+      width: 50%;
+      height: 3px;
+      background: linear-gradient(90deg, #00b4db, #00d49c);
+      border-radius: 2px;
+    }
+
+    /* === CONTENT === */
+    .content {
+      flex: 1;
+      padding: 18px;
+      overflow-y: auto;
+      background: #fff;
+    }
+
+    .search-bar {
+      background: #f9f9f9;
+      border-radius: 25px;
+      padding: 10px 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      margin-bottom: 18px;
+    }
+
+    .search-icon {
+      font-size: 18px;
+      color: #666;
+    }
+
+    .search-input {
+      flex: 1;
+      border: none;
+      outline: none;
+      font-size: 14px;
+      background: transparent;
+      color: #333;
+    }
+
+    /* === MAP === */
+    .map-container {
+      background: #e6f7ff;
+      border-radius: 15px;
+      overflow: hidden;
+      position: relative;
+      height: 180px;
+      margin-bottom: 20px;
+      border: 1px solid #cce7f5;
+    }
+
+    .static-map {
+      width: 100%;
+      height: 100%;
+      background: url('image/peta.jpg') no-repeat center center;
+      background-size: cover;
+    }
+
+    .pin {
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      background: #dc3545;
+      border-radius: 50%;
+      border: 2px solid white;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .pin:hover {
+      transform: scale(1.2);
+      box-shadow: 0 0 8px rgba(220, 53, 69, 0.6);
+    }
+
+    .pin:nth-child(1) { top: 35%; left: 25%; }
+    .pin:nth-child(2) { top: 48%; left: 55%; }
+    .pin:nth-child(3) { top: 60%; left: 40%; }
+    .pin:nth-child(4) { top: 72%; left: 70%; }
+    .pin:nth-child(5) { top: 50%; left: 80%; }
+
+    /* === JADWAL ITEM === */
+    .schedule-item {
+      background: #ffffff;
+      border-radius: 15px;
+      padding: 15px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+      margin-bottom: 15px;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 0.6s ease forwards;
+    }
+
+    .schedule-item:nth-child(3) { animation-delay: 0.1s; }
+    .schedule-item:nth-child(4) { animation-delay: 0.3s; }
+
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .schedule-icon {
+      font-size: 24px;
+      color: #00b4db;
+    }
+
+    .schedule-details {
+      flex: 1;
+    }
+
+    .schedule-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 4px;
+    }
+
+    .schedule-time {
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 3px;
+    }
+
+    .schedule-vaccines {
+      font-size: 12px;
+      color: #444;
+      line-height: 1.4;
+    }
+
+    /* === NAVBAR === */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 375px;
+      height: 80px;
+      background: #ffffff;
+      border-top: 1px solid rgba(0,0,0,0.05);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      box-shadow: 0 -4px 25px rgba(0,0,0,0.08);
+      border-radius: 20px 20px 0 0;
+      animation: slideUpNav 0.6s ease-out;
+      z-index: 10;
+    }
+
+    @keyframes slideUpNav {
+      from { transform: translate(-50%, 100%); opacity: 0; }
+      to { transform: translate(-50%, 0); opacity: 1; }
+    }
+
+    .nav-item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #555;
+      font-size: 12px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .nav-item:hover {
+      color: #00d4a0;
+      transform: translateY(-3px) scale(1.05);
+    }
+
+    .nav-item.active {
+      color: #00b4db;
+      font-weight: 600;
+    }
+
+    .nav-item i {
+      font-size: 22px;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="phone-frame">
+    <!-- HEADER -->
+    <div class="app-header">
+      <span class="back-btn" onclick="window.location.href='Notifikasi.html'">←</span>
+      Jadwal Imunisasi
+    </div>
+
+    <!-- TAB -->
+    <div class="tab-container">
+      <a href="notifikasi.html" class="tab">Notifikasi</a>
+      <div class="tab active">Jadwal Imunisasi</div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content">
+      <div class="search-bar">
+        <span class="search-icon">📍</span>
+        <input type="text" class="search-input" placeholder="Cari Posyandu terdekat..." />
+      </div>
+
+      <div class="map-container">
+        <div class="static-map">
+          <div class="pin"></div>
+          <div class="pin"></div>
+          <div class="pin"></div>
+          <div class="pin"></div>
+          <div class="pin"></div>
+        </div>
+      </div>
+
+      <div class="schedule-item">
+        <span class="schedule-icon">🏥</span>
+        <div class="schedule-details">
+          <div class="schedule-title">POSYANDU EKA RAYA</div>
+          <div class="schedule-time">09.30 • Minggu, 1 Juni 2023</div>
+          <div class="schedule-vaccines">BCG, Polio 1–3, DPT-HB-Hib 1–2</div>
+        </div>
+      </div>
+
+      <div class="schedule-item">
+        <span class="schedule-icon">🏥</span>
+        <div class="schedule-details">
+          <div class="schedule-title">POSYANDU BULAN MAS</div>
+          <div class="schedule-time">09.30 • Senin, 15 Juni 2023</div>
+          <div class="schedule-vaccines">DPT-HB-Hib 1–2, Polio Tetes 2–3, Polio Suntik</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NAVBAR -->
+    <div class="bottom-nav">
+      <a href="dashboard1.html" class="nav-item">
+        <i>🏠</i>
+        <span>HOME</span>
+      </a>
+      <a href="berita.html" class="nav-item">
+        <i>📰</i>
+        <span>BERITA</span>
+      </a>
+      <a href="Profilortu.html" class="nav-item">
+        <i>👤</i>
+        <span>PROFIL</span>
+      </a>
+      <a href="Notifikasi.html" class="nav-item active">
+        <i>🔔</i>
+        <span>NOTIFIKASI</span>
+      </a>
+      <a href="dashboard1.html" class="nav-item">
+        <i>☰</i>
+        <span>MENU</span>
+      </a>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SmartGrowth Assits</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: #f5f5f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .phone-frame {
+      width: 360px;
+      height: 740px;
+      background: white;
+      border-radius: 40px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .status-bar {
+      background: #fff;
+      color: #333;
+      padding: 10px 15px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .app-header {
+      background: white;
+      padding: 15px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #eee;
+    }
+
+    .app-header .back-btn {
+      font-size: 20px;
+      color: #333;
+      cursor: pointer;
+    }
+
+    .app-header .logo {
+      width: 24px;
+      height: auto;
+    }
+
+    .app-header h1 {
+      font-size: 16px;
+      font-weight: bold;
+      color: #333;
+      margin: 0;
+    }
+
+    .app-header .icons {
+      display: flex;
+      gap: 15px;
+    }
+
+    .app-header .icons span {
+      font-size: 20px;
+      color: #333;
+      cursor: pointer;
+    }
+
+    .chat-container {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      background: white;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .message {
+      max-width: 80%;
+      padding: 12px 16px;
+      border-radius: 18px;
+      font-size: 14px;
+      line-height: 1.5;
+      position: relative;
+      word-wrap: break-word;
+    }
+
+    .message.received {
+      background: linear-gradient(135deg, #29abe2, #5fd3b3);
+      color: white;
+      align-self: flex-start;
+      margin-right: auto;
+    }
+
+    .message.sent {
+      background: linear-gradient(135deg, #a8e6cf, #dcedc1);
+      color: #333;
+      align-self: flex-end;
+      margin-left: auto;
+    }
+
+    .message img {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      position: absolute;
+      left: -32px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .message-list {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .input-area {
+      padding: 15px 20px;
+      background: white;
+      border-top: 1px solid #eee;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .input-area input {
+      flex: 1;
+      padding: 10px 12px;
+      border: 1px solid #ddd;
+      border-radius: 20px;
+      font-size: 14px;
+      outline: none;
+    }
+
+    .input-area button {
+      background: none;
+      border: none;
+      font-size: 20px;
+      color: #29abe2;
+      cursor: pointer;
+    }
+
+    .input-area .mic {
+      font-size: 18px;
+      color: #888;
+      cursor: pointer;
+    }
+
+    .home-indicator {
+      height: 5px;
+      width: 120px;
+      background: #ccc;
+      border-radius: 10px;
+      margin: 10px auto 20px;
+    }
+    .back-btn {
+      font-size: 22px;
+      color: #333;
+      cursor: pointer;
+      transition: all 0.3s ease; /* efek animasi halus */
+      margin-right: 10px;
+    }
+
+    .back-btn:hover {
+      color: #00a3d7;            /* berubah warna */
+      transform: translateX(-5px); /* sedikit bergeser ke kiri */
+      text-shadow: 0 0 5px rgba(0,163,215,0.4); /* efek cahaya lembut */
+    }
+    /* === Wadah Utama Aplikasi === */
+    .app-container {
+      width: 100%;
+      max-width: 450px;
+      min-height: 100vh;
+      background: white;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      position: relative;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+
+
+    <!-- App Header -->
+    <div class="app-header">
+      <span class="back-btn" onclick="window.location.href='dashboard1.html'">←</span>
+      <img src="image/LogoSmartGrowth.png" alt="Logo" class="logo" />
+      <h1>SmartGrowth Assits</h1>
+      <div class="icons">
+        <span>🔇</span>
+        <span>📤</span>
+      </div>
+    </div>
+
+    <!-- Chat Container -->
+    <div class="chat-container">
+      <div class="message received">
+        Hai, Apa kabarmu?
+      </div>
+
+      <div class="message sent">
+        Hai, kabar saya baik baik saja, bagaimana dengan kamu?
+      </div>
+
+      <div class="message received">
+        Apa ciri anak yang terkena Stunting?
+      </div>
+
+      <div class="message received">
+        <img src="image/LogoSmartGrowth.png" alt="Logo" />
+        Ciri-Ciri Anak Stunting:
+        <br>• Tinggi badan lebih pendek dari usia seharusnya
+        <br>• Berat badan sulit naik
+        <br>• Perkembangan bicara dan motorik terlambat
+        <br>• Mudah sakit dan kurang aktif
+        <br>• Nafsu makan rendah
+      </div>
+
+      <div class="message sent">
+        Terima Kasih
+      </div>
+    </div>
+
+    <!-- Input Area -->
+    <div class="input-area">
+      <input type="text" placeholder="Tulis Pertanyaan Kamu Disini" />
+      <span class="mic">🎤</span>
+      <button>➤</button>
+    </div>
+  </div>
+
+</body>
+</html>

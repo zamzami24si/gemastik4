@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GrowWell Community</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background-color: #f7f8fa;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    /* === FRAME UTAMA === */
+    .app-frame {
+      width: 375px;
+      height: 740px;
+      background: #fff;
+      border-radius: 0; /* RUNCING */
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* === STATUS BAR === */
+    .status-bar {
+      background: #fff;
+      color: #333;
+      padding: 10px 15px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      border-bottom: 1px solid #eee;
+    }
+
+    /* === HEADER === */
+    .app-header {
+      background: linear-gradient(135deg, #29abe2, #5fd3b3);
+      padding: 15px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: #fff;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    }
+
+    .header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Logo header jadi bulat */
+.logo {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: white; /* supaya ada kontras */
+  padding: 3px;
+  box-shadow: 0 0 6px rgba(0,0,0,0.1);
+}
+    .app-header h1 {
+      font-size: 16px;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    .icons {
+      display: flex;
+      gap: 14px;
+      font-size: 20px;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+
+    .icons span:hover {
+      transform: scale(1.1);
+    }
+
+    .back-btn {
+      font-size: 22px;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .back-btn:hover {
+      transform: translateX(-5px);
+      text-shadow: 0 0 6px rgba(255,255,255,0.5);
+    }
+
+    /* === CHAT CONTAINER === */
+    .chat-container {
+      flex: 1;
+      padding: 18px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      background: #fff;
+    }
+
+    .message {
+      max-width: 80%;
+      padding: 12px 16px;
+      border-radius: 14px;
+      font-size: 14px;
+      line-height: 1.5;
+      word-wrap: break-word;
+      background: #f1f1f1;
+      color: #333;
+      align-self: flex-start;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      animation: fadeIn 0.4s ease;
+    }
+
+    .message.sent {
+      background: #e3f7f1;
+      align-self: flex-end;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(10px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+
+    .message-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 5px;
+    }
+
+    .avatar {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #29abe2;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      margin-right: 6px;
+    }
+
+    .message-name {
+      font-weight: 600;
+      font-size: 13px;
+      color: #333;
+    }
+
+    .message-time {
+      font-size: 11px;
+      color: #999;
+      margin-top: 5px;
+    }
+
+    /* === KOMUNITAS INFO === */
+    .community-info {
+      background: #fff;
+      padding: 15px 18px;
+      border-top: 1px solid #eee;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .logo2 {
+      width: 42px;
+      height: 42px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #29abe2, #5fd3b3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    .community-details {
+      flex: 1;
+    }
+
+    .community-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .community-members {
+      font-size: 12px;
+      color: #777;
+      margin-bottom: 6px;
+    }
+
+    .community-desc {
+      font-size: 13px;
+      color: #555;
+      line-height: 1.4;
+    }
+
+    /* === JOIN BUTTON === */
+    .join-button {
+      width: 90%;
+      margin: 15px auto;
+      padding: 12px;
+      background: linear-gradient(135deg, #29abe2, #5fd3b3);
+      color: white;
+      border: none;
+      border-radius: 25px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .join-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+    }
+
+    .join-button:active {
+      transform: scale(0.97);
+    }
+
+    /* === NAVBAR (opsional kalau mau disamakan dashboard) === */
+    .nav-bar {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 375px;
+      height: 70px;
+      background: #fff;
+      border-top: 1px solid #e5e5e5;
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      animation: slideUpNav 0.6s ease-out;
+    }
+
+    @keyframes slideUpNav {
+      from { transform: translate(-50%, 100%); opacity: 0; }
+      to { transform: translate(-50%, 0); opacity: 1; }
+    }
+
+    .nav-item {
+      text-decoration: none;
+      color: #666;
+      font-size: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: all 0.3s ease;
+    }
+
+    .nav-item:hover {
+      color: #29abe2;
+      transform: translateY(-3px);
+    }
+
+    .nav-active-item {
+      color: #29abe2;
+      font-weight: bold;
+    }
+
+    .nav-icon-size {
+      font-size: 20px;
+      margin-bottom: 3px;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-frame">
+    <!-- STATUS BAR -->
+    <div class="status-bar">
+      <span>9:41</span>
+      <span>📶 🔋</span>
+    </div>
+
+    <!-- HEADER -->
+    <div class="app-header">
+      <div class="header-left">
+        <span class="back-btn" onclick="window.location.href='dashboard1.html'">←</span>
+        <img src="image/LogoSmartGrowth.png" alt="Logo" class="logo" />
+        <h1>GrowWell Community</h1>
+      </div>
+      <div class="icons">
+        <span>🔇</span>
+        <span>📤</span>
+      </div>
+    </div>
+
+    <!-- CHAT -->
+    <div class="chat-container">
+      <div class="message">
+        <div class="message-header">
+          <div class="avatar">S</div>
+          <div class="message-name">Siti</div>
+        </div>
+        Selamat siang Ibu-ibu. Anak saya (2,5 tahun) susah sekali makannya. Ada yang punya tips andalan supaya anak mau makan dengan lahap?
+        <div class="message-time">08:30 AM</div>
+      </div>
+
+      <div class="message sent">
+        <div class="message-header">
+          <div class="avatar">R</div>
+          <div class="message-name">Rini</div>
+        </div>
+        Halo Ibu Siti, saya juga pernah mengalami hal yang sama. Saya coba berikan MP-ASI yang teksturnya lebih menarik dan variasikan warnanya. Anak saya jadi lebih tertarik. Mungkin bisa dicoba juga.
+        <div class="message-time">08:31 AM</div>
+      </div>
+
+      <div class="message">
+        <div class="message-header">
+          <div class="avatar">S</div>
+          <div class="message-name">Siti</div>
+        </div>
+        Terima kasih, Ibu Rini!
+        <div class="message-time">08:32 AM</div>
+      </div>
+    </div>
+
+    <!-- KOMUNITAS INFO -->
+    <div class="community-info">
+      <img class="logo2" src="image/LogoSmartGrowth.png" alt="">
+      <div class="community-details">
+        <div class="community-title">SmartGrowth Community</div>
+        <div class="community-members">4.412 anggota</div>
+        <div class="community-desc">Tempat berbagi pengalaman, nutrisi, dan tips tumbuh kembang anak secara sehat dan bahagia 🌱</div>
+      </div>
+    </div>
+
+    <!-- JOIN BUTTON -->
+    <button class="join-button" onclick="window.location.href='komunitas2.html'">
+      Gabung Komunitas
+    </button>
+  </div>
+</body>
+</html>

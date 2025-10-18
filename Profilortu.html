@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SmartGrowth - Profil</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: #ececec;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    /* ✅ Frame persegi penuh (tidak melengkung) */
+    .phone-frame {
+      width: 375px;
+      height: 740px;
+      background: white;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      border-radius: 0;
+    }
+
+    /* Status Bar */
+    .status-bar {
+      background: #fff;
+      color: #333;
+      padding: 10px 15px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      border-bottom: 1px solid #eee;
+    }
+
+    /* Header */
+    .app-header {
+      background: linear-gradient(135deg, #29abe2, #5fd3b3);
+      padding: 20px 20px 10px;
+      position: relative;
+      color: white;
+      overflow: hidden;
+    }
+
+    .header-wave {
+      position: absolute;
+      bottom: -15px;
+      left: 0;
+      width: 100%;
+      height: 80px;
+      background: white;
+      clip-path: polygon(0 30%, 100% 0, 100% 100%, 0 100%);
+      z-index: 0;
+    }
+
+    .greeting-section {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: #ddd;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      color: #333;
+      border: 3px solid rgba(255,255,255,0.3);
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      transition: transform 0.2s;
+    }
+
+    .avatar:hover {
+      transform: scale(1.05);
+    }
+
+    .greeting-title {
+      font-size: 18px;
+      font-weight: bold;
+      color: white;
+    }
+
+    .greeting-subtitle {
+      font-size: 14px;
+      color: rgba(1, 77, 147, 0.9);
+    }
+
+    .progress-link {
+      font-size: 12px;
+      color: #051915;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .progress-link:hover {
+      text-decoration: underline;
+      color: #c8fff0;
+    }
+
+    /* Konten */
+    .content {
+      flex: 1;
+      padding: 20px;
+      background: white;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .section-title {
+      font-size: 16px;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .menu-item {
+      background: white;
+      border-radius: 8px;
+      padding: 12px 15px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .menu-item:hover {
+      background: #f5f5f5;
+      transform: translateX(3px);
+    }
+
+    .menu-icon {
+      font-size: 20px;
+      color: #666;
+      margin-right: 10px;
+    }
+
+    .menu-label {
+      flex: 1;
+      font-size: 14px;
+      color: #333;
+    }
+
+    .menu-arrow {
+      font-size: 16px;
+      color: #666;
+    }
+
+    /* ✅ Navbar persegi */
+    .nav-bar {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: white;
+      border-top: 1px solid #e5e5e5;
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.08);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 8px 0;
+      border-radius: 0;
+      z-index: 1000;
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      color: #666;
+      font-size: 12px;
+      transition: color 0.2s, transform 0.2s;
+    }
+
+    .nav-item:hover {
+      color: #29abe2;
+      transform: translateY(-3px);
+    }
+
+    .nav-active-item {
+      color: #29abe2;
+      font-weight: bold;
+      animation: pulse-glow 2s infinite ease-in-out;
+    }
+
+    .nav-icon-size {
+      font-size: 20px;
+      margin-bottom: 3px;
+    }
+
+    .nav-text {
+      font-size: 11px;
+    }
+
+    /* Animasi */
+    @keyframes pulse-glow {
+      0% { text-shadow: 0 0 0 rgba(41,171,226,0.3); }
+      50% { text-shadow: 0 0 8px rgba(41,171,226,0.7); }
+      100% { text-shadow: 0 0 0 rgba(41,171,226,0.3); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="phone-frame">
+    <!-- Header -->
+    <div class="app-header">
+      <div class="greeting-section">
+        <div class="avatar">👨‍⚕️</div>
+        <div>
+          <div class="greeting-title">Hi, Pak Zami</div>
+          <div class="greeting-subtitle">Selamat datang kembali</div>
+          <a href="#" class="progress-link">70% Completed ></a>
+        </div>
+      </div>
+      <div class="header-wave"></div>
+    </div>
+
+    <!-- Konten -->
+    <div class="content">
+      <div class="section-title">Akun</div>
+      <div class="menu-item"><span class="menu-icon">👤</span><span class="menu-label">Profil Saya</span><span class="menu-arrow">➤</span></div>
+      <div class="menu-item"><span class="menu-icon">✉️</span><span class="menu-label">Ubah Email</span><span class="menu-arrow">➤</span></div>
+      <div class="menu-item"><span class="menu-icon">🔒</span><span class="menu-label">Ubah Password</span><span class="menu-arrow">➤</span></div>
+      <div class="menu-item"><span class="menu-icon">🌐</span><span class="menu-label">Pilihan Bahasa</span><span class="menu-arrow">➤</span></div>
+      <div class="menu-item"><span class="menu-icon">📋</span><span class="menu-label">Data Saya</span><span class="menu-arrow">➤</span></div>
+
+      <div class="section-title">Tentang</div>
+      <div class="menu-item"><span class="menu-icon">💡</span><span class="menu-label">Panduan</span><span class="menu-arrow">➤</span></div>
+      <div class="menu-item"><span class="menu-icon">📄</span><span class="menu-label">Syarat dan Ketentuan</span><span class="menu-arrow">➤</span></div>
+      <div class="menu-item"><span class="menu-icon">🛡️</span><span class="menu-label">Kebijakan dan Privasi</span><span class="menu-arrow">➤</span></div>
+    </div>
+
+    <!-- ✅ Navbar -->
+    <div class="nav-bar">
+      <a href="dashboard1.html" class="nav-item">
+        <span class="nav-icon-size">🏠</span>
+        <span class="nav-text">HOME</span>
+      </a>
+      <a href="berita.html" class="nav-item">
+        <span class="nav-icon-size">📰</span>
+        <span class="nav-text">BERITA</span>
+      </a>
+      <a href="Profilortu.html" class="nav-item nav-active-item">
+        <span class="nav-icon-size">👤</span>
+        <span class="nav-text">PROFIL</span>
+      </a>
+      <a href="Notifikasi.html" class="nav-item">
+        <span class="nav-icon-size">🔔</span>
+        <span class="nav-text">NOTIFIKASI</span>
+      </a>
+      <a href="dashboard1.html" class="nav-item">
+        <span class="nav-icon-size">☰</span>
+        <span class="nav-text">MENU</span>
+      </a>
+    </div>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SmartGrowth - Login</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: #f5f7fa;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    /* Frame seperti dashboard */
+    .phone-frame {
+      width: 390px;
+      height: 844px;
+      background: #fff;
+      border-radius: 0;
+      overflow: hidden;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      position: relative;
+    }
+
+    .status-bar {
+      background: #fff;
+      color: #333;
+      padding: 10px 15px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      border-bottom: 1px solid #eee;
+    }
+
+    /* Header */
+    .app-header {
+      background: linear-gradient(135deg, #29abe2, #5fd3b3);
+      color: white;
+      text-align: center;
+      padding: 25px 20px;
+      font-size: 22px;
+      font-weight: bold;
+      letter-spacing: 0.5px;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    }
+
+    /* Container form */
+    .form-container {
+      background: #fff;
+      margin: 25px 20px;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      flex-shrink: 0;
+    }
+
+    .form-title {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 18px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .input-group {
+      margin-bottom: 15px;
+      position: relative;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 14px;
+      color: #333;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 10px 40px 10px 12px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.3s ease;
+    }
+
+    input:focus {
+      border-color: #29abe2;
+      box-shadow: 0 0 5px rgba(41,171,226,0.3);
+    }
+
+    .show-password {
+      position: absolute;
+      right: 12px;
+      top: 35px;
+      cursor: pointer;
+      color: #888;
+      font-size: 16px;
+      user-select: none;
+    }
+
+    .forgot-password {
+      text-align: right;
+      margin-top: -5px;
+      margin-bottom: 15px;
+    }
+
+    .forgot-password a {
+      color: #29abe2;
+      font-size: 13px;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .forgot-password a:hover {
+      color: #1c8ec0;
+      text-decoration: underline;
+    }
+
+    /* Tombol utama */
+    .btn-primary {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(135deg, #29abe2, #5fd3b3);
+      color: white;
+      border: none;
+      border-radius: 25px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 18px rgba(0,0,0,0.25);
+    }
+
+    .btn-primary:active {
+      transform: scale(0.96);
+    }
+
+    /* Logo bawah */
+    .logo-section {
+      text-align: center;
+      margin-top: auto;
+      padding-bottom: 10px;
+    }
+
+    .logo {
+      width: 210px;
+      height: 210px;
+      object-fit: cover;
+      background: #fff;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+
+    .logo-text {
+      font-size: 16px;
+      color: #666;
+      letter-spacing: 0.5px;
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      padding: 15px;
+      font-size: 14px;
+      color: #666;
+    }
+
+    .footer a {
+      color: #29abe2;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+
+    .home-indicator {
+      height: 5px;
+      width: 120px;
+      background: #ccc;
+      border-radius: 10px;
+      margin: 10px auto 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="phone-frame">
+    <!-- Header -->
+    <div class="app-header">SmartGrowth</div>
+
+    <!-- Form -->
+    <div class="form-container">
+      <div class="form-title">Login</div>
+
+      <div class="input-group">
+        <label>Email</label>
+        <input type="email" placeholder="Masukkan email" />
+      </div>
+
+      <div class="input-group">
+        <label>Password</label>
+        <input type="password" id="password" placeholder="Masukkan Password" />
+        <span class="show-password" onclick="togglePassword()">👁️</span>
+      </div>
+
+      <div class="forgot-password">
+        <a href="#">Lupa password?</a>
+      </div>
+
+      <button class="btn-primary" onclick="window.location.href='dashboard1.html'">Login</button>
+    </div>
+
+    <!-- Logo -->
+    <div class="logo-section">
+      <img src="image/LogoSmartGrowth.png" alt="Logo" class="logo" />
+      <div class="logo-text">GrowWell</div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      Belum punya akun? <a href="daftar.html">Daftar</a>
+    </div>
+  </div>
+
+  <script>
+    function togglePassword() {
+      const passwordField = document.getElementById("password");
+      const icon = document.querySelector(".show-password");
+      if (passwordField.type === "password") {
+        passwordField.type = "text";
+        icon.textContent = "🙈";
+      } else {
+        passwordField.type = "password";
+        icon.textContent = "👁️";
+      }
+    }
+  </script>
+
+</body>
+</html>

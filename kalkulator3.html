@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SmartGrowth - Hasil Analisis</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background-color: #f7f8fa;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    /* FRAME — TANPA LENGKUNG */
+    .app-frame {
+      width: 375px;
+      height: 740px;
+      background: #fff;
+      border-radius: 0; /* runcing di semua sudut */
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      position: relative;
+      animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.97); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    /* HEADER */
+    .app-header {
+      background: linear-gradient(135deg, #29abe2, #5fd3b3);
+      color: white;
+      padding: 18px 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 600;
+    }
+
+    .back-btn {
+      font-size: 22px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .back-btn:hover {
+      transform: translateX(-5px);
+      text-shadow: 0 0 6px rgba(255,255,255,0.5);
+    }
+
+    /* CONTENT */
+    .content {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      background: #fff;
+    }
+
+    .result-card {
+      background: linear-gradient(135deg, #a8e6cf, #dcedc1);
+      border-radius: 15px;
+      padding: 16px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 15px;
+      animation: slideUp 0.6s ease forwards;
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    .result-card.imt {
+      background: linear-gradient(135deg, #64b5f6, #4fc3f7);
+    }
+
+    .result-card:nth-child(1) { animation-delay: 0.1s; }
+    .result-card:nth-child(2) { animation-delay: 0.3s; }
+
+    @keyframes slideUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .result-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: white;
+      margin-bottom: 3px;
+    }
+
+    .result-subtitle {
+      font-size: 13px;
+      color: rgba(255,255,255,0.85);
+      margin-bottom: 10px;
+    }
+
+    .result-image {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 70px;
+      height: 70px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 28px;
+    }
+
+    .result-date {
+      font-size: 12px;
+      color: #666;
+      text-align: center;
+      margin: 10px 0;
+    }
+
+    .result-value {
+      font-size: 16px;
+      color: #333;
+      text-align: center;
+      font-weight: 500;
+      margin-bottom: 5px;
+    }
+
+    .result-status {
+      font-size: 15px;
+      font-weight: 600;
+      color: #d32f2f;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    /* NAVBAR */
+    .nav-bar {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 375px;
+      height: 70px;
+      background: #ffffff;
+      border-top: 1px solid #e5e5e5;
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      animation: navUp 0.6s ease-out;
+      z-index: 10;
+    }
+
+    @keyframes navUp {
+      from { transform: translate(-50%, 100%); opacity: 0; }
+      to { transform: translate(-50%, 0); opacity: 1; }
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      color: #666;
+      font-size: 12px;
+      transition: all 0.3s ease;
+    }
+
+    .nav-item:hover {
+      transform: translateY(-3px);
+      color: #29abe2;
+    }
+
+    .nav-item.nav-active-item {
+      color: #29abe2;
+      font-weight: bold;
+    }
+
+    .nav-icon-size {
+      font-size: 20px;
+      margin-bottom: 4px;
+      transition: transform 0.3s ease;
+    }
+
+    .nav-item:hover .nav-icon-size {
+      transform: scale(1.15);
+    }
+  </style>
+</head>
+<body>
+  <div class="app-frame">
+    <!-- HEADER -->
+    <div class="app-header">
+      <span class="back-btn" onclick="window.location.href='kalkulator2.html'">←</span>
+      Hasil Analisis
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content">
+      <div class="result-card imt">
+        <div class="result-title">IMT</div>
+        <div class="result-subtitle">Indeks Massa Tubuh</div>
+        <div class="result-image">👨‍⚕️</div>
+      </div>
+
+      <div class="result-date">17 Oktober 2023 • 17:28</div>
+      <div class="result-value">Nilai IMT (Kg/m²) = <strong>27.4</strong></div>
+      <div class="result-status">Standar WHO: Obesitas</div>
+
+      <div class="result-card">
+        <div class="result-title">BBI</div>
+        <div class="result-subtitle">Berat Badan Ideal</div>
+        <div class="result-image">🥗🍎</div>
+      </div>
+
+      <div class="result-date">17 Oktober 2023 • 17:28</div>
+      <div class="result-value">Berat Badan Ideal Kamu Adalah:<br><strong>63.9 kg</strong></div>
+    </div>
+
+    <!-- NAVBAR -->
+    <div class="nav-bar">
+      <a href="dashboard1.html" class="nav-item">
+        <span class="nav-icon-size">🏠</span>
+        <span>HOME</span>
+      </a>
+      <a href="berita.html" class="nav-item">
+        <span class="nav-icon-size">📰</span>
+        <span>BERITA</span>
+      </a>
+      <a href="Profilortu.html" class="nav-item nav-active-item">
+        <span class="nav-icon-size">👤</span>
+        <span>PROFIL</span>
+      </a>
+      <a href="Notifikasi.html" class="nav-item">
+        <span class="nav-icon-size">🔔</span>
+        <span>NOTIFIKASI</span>
+      </a>
+      <a href="dashboard1.html" class="nav-item">
+        <span class="nav-icon-size">☰</span>
+        <span>MENU</span>
+      </a>
+    </div>
+  </div>
+</body>
+</html>
